@@ -1,0 +1,30 @@
+name: E2E Tests
+
+on:
+  # auto trigger this workflow based on another github action
+  workflow_run:
+    workflows: [Orchestrated Deploy to TST and UAT Environments]
+    types:
+      - completed
+
+  # trigger workflow manually
+  workflow_dispatch:
+
+  # allows another github action to trigger this workflow
+  repository_dispatch:
+    types:
+      - ngp-ui-e2e-test
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    container: cypress/included:6.8.0
+    steps:
+      - name: Checkout 🛫
+        uses: actions/checkout@v3
+
+      - name: Install node 🔧
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+          cache: "yarn"

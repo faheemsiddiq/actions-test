@@ -1,0 +1,39 @@
+---
+name: Build, Test and Publish
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "master"
+      - "bugfix/**"
+      - "feature/**"
+      - "hotfix/**"
+      - "uplift/**"
+
+jobs:
+  unit-test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout ⬇️
+        uses: actions/checkout@v3
+
+      - name: Install node 🔧
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+
+      - uses: actions/cache@v3
+        id: cache
+        with:
+          path: node_modules/
+          key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install deps 🛠️
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: yarn --frozen-lockfile
+
+      - name: Run tests and generate coverage report 🔨 📄
+        run: yarn run jest --watchAll=false --maxWorkers=100%

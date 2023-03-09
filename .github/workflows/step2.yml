@@ -1,0 +1,41 @@
+---
+name: Deploy (trsuat08)
+run-name: ${{ github.actor }} deployed ${{ github.event.inputs.version || github.event.client_payload.version }} to TST and UAT Environments
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to deploy"
+        required: true
+        type: string
+  repository_dispatch:
+    types:
+      - ngp-ui-dev-deployments
+
+env:
+  APPLICATION: ${{ github.event.repository.name }}
+  TIMEOUT: "300"
+
+jobs:
+  deploy-test-envs:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      deployments: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        namespace:
+          - "trstst08"
+          - "trstst09"
+          - "trsuat08"
+          - "trsuat09"
+
+    name: Deploy (${{ matrix.namespace }})
+
+    steps:
+      - name: Deploy
+        run: echo "Deploy plis"
