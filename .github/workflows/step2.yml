@@ -1,5 +1,5 @@
 ---
-name: Orchestrated Deploy to TST and UAT Environments
+name: Deploy (trsuat08)
 run-name: ${{ github.actor }} deployed ${{ github.event.inputs.version || github.event.client_payload.version }} to TST and UAT Environments
 
 on:
