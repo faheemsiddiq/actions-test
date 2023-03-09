@@ -3,7 +3,7 @@ name: E2E Tests
 on:
   # auto trigger this workflow based on another github action
   workflow_run:
-    workflows: Deploy (trsuat08)
+    workflows: [Deploy (trsuat08)]
     types:
       - completed
 
