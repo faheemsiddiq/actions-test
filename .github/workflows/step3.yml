@@ -3,7 +3,7 @@ name: E2E Tests
 on:
   # auto trigger this workflow based on another github action
   workflow_run:
-    workflows: [Orchestrated Deploy to TST and UAT Environments]
+    workflows: Orchestrated Deploy to TST and UAT Environments
     types:
       - completed
 
